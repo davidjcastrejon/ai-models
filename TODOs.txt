@@ -1,0 +1,28 @@
+
+TODO: Create a Bayes' net validation function using Tarjan's SCC algorithm to ensure no cycles
+
+function Tarjan(Node* node):
+    node.visited <- true
+    node.index <- indexCounter
+    s.push(node)
+    for all sucessor in node.succesors do 
+        if !node.visited then Tarjan(successor)
+        end if
+        node.lowlink <- MIN(node.lowlink, successor.lowlink)
+    end for
+    if node.lowlink == node.index then
+        repeat
+            successor <- stack.pop()
+        until successor == node
+    end if
+end function
+
+
+
+TODO: Add pi and lambda functions for inference
+
+d_pi(num_states), // TODO: Re-read how we should initialize pi vector
+d_lambda(num_states, 1.0) {} // TODO: Re-read how we should initialize lambda vector
+
+std::vector<double> d_pi;
+std::vector<double> d_lambda;

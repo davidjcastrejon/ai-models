@@ -13,37 +13,27 @@ class BayesianNode : public Node {
 protected:
 
 public:
-    // Use explicit with single argument methods to preven implicit conversion
-    explicit BayesianNode(const std::string& id, size_t num_states = 1) 
-        : Node(id), 
-          d_pi(num_states), // TODO: Re-read how we should initialize pi vector
-          d_lambda(num_states, 1.0) {} // TODO: Re-read how we should initialize lambda vector
+    // Constructor for root nodes (has prior distributions)
+    explicit BayesianNode(const std::string& id, const std::vector<double>& priors)
+        : Node(id), d_priors(priors) {}
+    
+    // Constructor for nodes with parents (will need conditional probability table)
+    BayesianNode(const std::string& id, size_t num_states)
+        : Node(id), d_num_states(num_states) {}
 
-    const std::string& getType() const override { return d_type; }
+    const std::string& type() const override { return d_type; }
+    
+    // Accessors
+    const std::vector<double>& priors() const { return d_priors; }
+    size_t numStates() const { return d_num_states; }
+    bool parents() const { return !d_priors.empty(); }
 
 private:
-    std::vector<double> d_pi;
-    std::vector<double> d_lambda;
-    const std::string d_type = "Bayesian"; 
-
-/*
-TODO: Create a Bayes' net validation function using Tarjan's SCC algorithm to ensure no cycles
-
-function Tarjan(Node* node):
-    node.visited <- true
-    node.index <- indexCounter
-    s.push(node)
-    for all sucessor in node.succesors do 
-        if !node.visited then Tarjan(successor)
-        end if
-        node.lowlink <- MIN(node.lowlink, successor.lowlink)
-    end for
-    if node.lowlink == node.index then
-        repeat
-            successor <- stack.pop()
-        until successor == node
-    end if
-end function
-*/
-
+    const std::string d_type = "Bayesian";
+    
+    // For root nodes
+    std::vector<double> d_priors;  // Prior probabilities
+    
+    // For all nodes
+    size_t d_num_states = 0;  // Number of possible states
 };

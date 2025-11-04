@@ -22,7 +22,7 @@ public:
     virtual ~Node() = default;
 
     // Pure virtual - must be implemented by derived class
-    virtual const std::string& getType() const = 0;
+    virtual const std::string& type() const = 0;
 
     const std::string& id() const { return d_id; }
     const std::vector<Node*>& parents() { return d_parents; }
