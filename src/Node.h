@@ -9,7 +9,6 @@
 class Node {
 // Node and derived classes can access
 protected:
-    std::string d_id;
     std::vector<Node*> d_parents;
     std::vector<Node*> d_children;
 
@@ -23,13 +22,14 @@ public:
     virtual ~Node() = default;
 
     // Pure virtual - must be implemented by derived class
-    virtual std::string getType() const = 0;
+    virtual const std::string& getType() const = 0;
 
-    const std::string& const id() { return d_id; }
+    const std::string& id() const { return d_id; }
     const std::vector<Node*>& parents() { return d_parents; }
     const std::vector<Node*>& children() { return d_children; }
 
 // Node can access
 private:
+    const std::string d_id;
 
 };
